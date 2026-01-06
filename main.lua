@@ -85,7 +85,7 @@ Window:SetToggleKey(Enum.KeyCode.T)
 -- ==================== MAIN SECTION ====================
 local MainSection = Window:Section({
     Title = "Main",
-    Icon = "home"
+    Icon = "star"
 })
 
 -- Vehicle Tab
@@ -213,7 +213,7 @@ TeleportTab:Button({
 -- ==================== MISC SECTION ====================
 local MiscSection = Window:Section({
     Title = "Misc",
-    Icon = "settings"
+    Icon = "tool"
 })
 
 -- Movement Tab
