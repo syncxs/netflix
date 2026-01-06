@@ -1,7 +1,7 @@
 -- Seven Menu - Main Loader
 -- Substitua YOUR_USERNAME e YOUR_REPO pelos seus dados do GitHub
 
-local GITHUB_BASE = "https://github.com/syncxs/netflix/edit/main/"
+local GITHUB_BASE = "https://github.com/syncxs/netflix/blob/main/"
 
 -- Sistema de carregamento de módulos
 local ModuleLoader = {
