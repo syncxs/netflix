@@ -15,39 +15,49 @@ function ModuleLoader:Load(moduleName)
     end
     
     local url = self.baseUrl .. moduleName .. ".lua"
+    print("Tentando carregar: " .. url) -- Debug
+    
     local success, result = pcall(function()
         return loadstring(game:HttpGet(url))()
     end)
     
     if success then
         self.modules[moduleName] = result
+        print("✓ Módulo " .. moduleName .. " carregado!")
         return result
     else
-        warn("Erro ao carregar módulo " .. moduleName .. ": " .. tostring(result))
+        warn("✗ Erro ao carregar módulo " .. moduleName .. ": " .. tostring(result))
         return nil
     end
 end
 
 -- Carregar WindUI
+print("Carregando WindUI...")
 local WindUI = loadstring(game:HttpGet("https://github.com/Footagesus/WindUI/releases/latest/download/main.lua"))()
 
--- Carregar todos os módulos
+-- Carregar módulos existentes
+print("Carregando módulos...")
 local ESP = ModuleLoader:Load("esp")
 local Vehicle = ModuleLoader:Load("vehicle")
-local Farm = ModuleLoader:Load("farm")
 local Lockpick = ModuleLoader:Load("lockpick")
 local Movement = ModuleLoader:Load("movement")
-local Troll = ModuleLoader:Load("troll")
 
--- Verificar se os módulos carregaram
-if not (ESP and Vehicle and Farm and Lockpick and Movement and Troll) then
+-- Verificar se os módulos essenciais carregaram
+if not (ESP and Vehicle and Lockpick and Movement) then
     game:GetService("StarterGui"):SetCore("SendNotification", {
-        Title = "Erro",
-        Text = "Falha ao carregar alguns módulos!",
-        Duration = 5
+        Title = "Seven Menu - Erro",
+        Text = "Falha ao carregar módulos! Verifique o console (F9)",
+        Duration = 10
     })
+    warn("=== MÓDULOS CARREGADOS ===")
+    warn("ESP: " .. tostring(ESP ~= nil))
+    warn("Vehicle: " .. tostring(Vehicle ~= nil))
+    warn("Lockpick: " .. tostring(Lockpick ~= nil))
+    warn("Movement: " .. tostring(Movement ~= nil))
     return
 end
+
+print("Todos os módulos carregados! Criando interface...")
 
 -- Criar Window
 local Window = WindUI:CreateWindow({
@@ -200,34 +210,6 @@ TeleportTab:Button({
     end
 })
 
--- ==================== FARM SECTION ====================
-local FarmSection = Window:Section({
-    Title = "Farm",
-    Icon = "coins"
-})
-
-local FarmTab = FarmSection:Tab({
-    Title = "Lixeiro",
-    Icon = "trash-2"
-})
-
-FarmTab:Toggle({
-    Title = "Farm Lixeiro",
-    Desc = "Coleta lixos automaticamente",
-    Flag = "TrashFarm",
-    Default = false,
-    Callback = function(value)
-        Farm.ToggleTrashFarm(value)
-        if value then
-            WindUI:Notify({
-                Title = "Farm Lixeiro",
-                Content = "Ativado!",
-                Icon = "trash-2"
-            })
-        end
-    end
-})
-
 -- ==================== MISC SECTION ====================
 local MiscSection = Window:Section({
     Title = "Misc",
@@ -309,34 +291,6 @@ DetectionTab:Toggle({
     end
 })
 
--- ==================== TROLL SECTION ====================
-local TrollSection = Window:Section({
-    Title = "Troll",
-    Icon = "laugh"
-})
-
-local TrollTab = TrollSection:Tab({
-    Title = "Ações de Troll",
-    Icon = "smile"
-})
-
-TrollTab:Toggle({
-    Title = "Menu Troll",
-    Desc = "Abre menu para trollar players",
-    Flag = "TrollMenu",
-    Default = false,
-    Callback = function(value)
-        Troll.ToggleGui(value)
-        if value then
-            WindUI:Notify({
-                Title = "Menu Troll",
-                Content = "Aberto!",
-                Icon = "smile"
-            })
-        end
-    end
-})
-
 -- ==================== SETTINGS SECTION ====================
 local SettingsSection = Window:Section({
     Title = "Settings",
@@ -400,3 +354,5 @@ WindUI:Notify({
     Icon = "check",
     Duration = 5
 })
+
+print("✓ Seven Menu carregado completamente!")
