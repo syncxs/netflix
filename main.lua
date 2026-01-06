@@ -291,28 +291,6 @@ DetectionTab:Toggle({
     end
 })
 
--- ==================== SETTINGS SECTION ====================
-local SettingsSection = Window:Section({
-    Title = "Settings",
-    Icon = "settings"
-})
-
-local ConfigTab = SettingsSection:Tab({
-    Title = "Configurações",
-    Icon = "sliders"
-})
-
-ConfigTab:Button({
-    Title = "Destruir Menu",
-    Desc = "Fecha o menu completamente",
-    Icon = "x",
-    Color = Color3.fromHex("#ff4830"),
-    Justify = "Center",
-    Callback = function()
-        Window:Destroy()
-    end
-})
-
 -- ==================== CREDITS SECTION ====================
 local CreditsSection = Window:Section({
     Title = "Créditos",
